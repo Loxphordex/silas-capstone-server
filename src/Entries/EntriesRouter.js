@@ -17,7 +17,8 @@ EntriesRouter
     entry.user_id = req.user.id;
 
     const newEntry = {
-      content: entry,
+      title: entry.title,
+      content: entry.content,
       user_id: req.user.id
     };
 
