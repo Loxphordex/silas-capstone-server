@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const RegisterRouter = require('./Registration/RegisterRouter');
 const LoginRouter = require('./Login/LoginRouter');
+const EntriesRouter = require('./Entries/EntriesRouter');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(helmet());
 
 app.use('/api/users', RegisterRouter);
+app.use('/auth/entry', EntriesRouter);
 app.use('/auth/login', LoginRouter);
 
 app.get('/', (req, res) => {
