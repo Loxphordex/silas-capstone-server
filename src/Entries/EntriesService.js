@@ -9,6 +9,12 @@ const EntriesService = {
       .first();
   },
 
+  getAllByUserId(db, id) {
+    return db('entries')
+      .select('*')
+      .where('entries.user_id', id);
+  },
+
   insertEntry(db, newEntry) {
     return db
       .insert(newEntry)

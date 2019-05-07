@@ -30,4 +30,21 @@ EntriesRouter
       .catch(next);
   });
 
+EntriesRouter
+  .route('/list')
+  .get(requireAuth, (req, res, next) => {
+    const id = req.user.id;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Missing id in request' });
+    }
+
+    EntriesService.getAllByUserId(req.app.get('db'), id)
+      .then(entries => {
+        res.status(201)
+          .json(entries);
+      })
+      .catch(next);
+  });
+
 module.exports = EntriesRouter;
