@@ -1,5 +1,5 @@
 const express = require('express');
-const LoginServies = require('./LoginServices');
+const LoginServices = require('./LoginServices');
 const LoginRouter = express.Router();
 const bodyParser = express.json();
 
@@ -18,22 +18,28 @@ LoginRouter
       }
     }
 
-    LoginServies.getUserWithUsername(req.app.get('db'), userCreds.username)
+    LoginServices.getUserWithUsername(req.app.get('db'), userCreds.username)
       .then(dbUser => {
 
         if (!dbUser) {
           return res.status(400).json({
-            error: 'Missing username or password'
+            error: 'Incorrect username or password'
           });
         }
 
-        return LoginServies.comparePasswords(userCreds.password, dbUser.password)
+        return LoginServices.comparePasswords(userCreds.password, dbUser.password)
           .then(match => {
             if (!match) {
               return res.status(400).json({
-                error: 'Missing username or password'
+                error: 'Incorrect username or password'
               });
             }
+
+            const sub = dbUser.username;
+            const payload = { user_id: dbUser.id };
+            res.send({
+              authToken: LoginServices.createJwt(sub, payload),
+            });
           });
       })
       .catch(next);
