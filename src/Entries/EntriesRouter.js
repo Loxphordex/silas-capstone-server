@@ -42,6 +42,10 @@ EntriesRouter
 
     EntriesService.getAllByUserId(req.app.get('db'), id)
       .then(entries => {
+        if (!entries) {
+          console.log('No entries');
+          return res.status(200).json();
+        }
         res.status(201)
           .json(entries);
       })

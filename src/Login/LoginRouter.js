@@ -10,6 +10,9 @@ LoginRouter
     const { username, password } = req.body;
     const userCreds = { username, password };
 
+    console.log(req.body);
+    console.log(username, password);
+
     for (const [key, value] of Object.entries(userCreds)) {
       if (!value) {
         return res.status(400).json({
@@ -20,6 +23,8 @@ LoginRouter
 
     LoginServices.getUserWithUsername(req.app.get('db'), userCreds.username)
       .then(dbUser => {
+
+        console.log(dbUser);
 
         if (!dbUser) {
           return res.status(400).json({
