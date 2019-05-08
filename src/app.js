@@ -23,9 +23,12 @@ app.use('/api/users', RegisterRouter);
 app.use('/auth/entry', EntriesRouter);
 app.use('/auth/login', LoginRouter);
 app.use('/auth/refresh', AuthRouter);
+app.get('/test', (req, res) => {
+  res.json({ message: 'Test' });
+});
 
 app.get('/', (req, res) => {
-  res.send('Hello, world!');
+  res.json({ message: 'Hello, world!'});
 });
 
 app.use(function errorHandler(error, req, res, next) {
