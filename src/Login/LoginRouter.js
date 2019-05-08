@@ -26,7 +26,7 @@ LoginRouter
     LoginService.getUserWithUsername(req.app.get('db'), userCreds.username)
       .then(dbUser => {
 
-        console.log(dbUser);
+
 
         if (!dbUser) {
           return res.status(400).json({
