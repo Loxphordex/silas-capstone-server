@@ -1,5 +1,5 @@
 const express = require('express');
-const LoginServices = require('./LoginServices');
+const LoginService = require('./LoginService');
 const LoginRouter = express.Router();
 const bodyParser = express.json();
 
@@ -21,7 +21,9 @@ LoginRouter
       }
     }
 
-    LoginServices.getUserWithUsername(req.app.get('db'), userCreds.username)
+    console.log('testing');
+
+    LoginService.getUserWithUsername(req.app.get('db'), userCreds.username)
       .then(dbUser => {
 
         console.log(dbUser);
@@ -32,7 +34,7 @@ LoginRouter
           });
         }
 
-        return LoginServices.comparePasswords(userCreds.password, dbUser.password)
+        return LoginService.comparePasswords(userCreds.password, dbUser.password)
           .then(match => {
             if (!match) {
               return res.status(400).json({
@@ -43,7 +45,7 @@ LoginRouter
             const sub = dbUser.username;
             const payload = { user_id: dbUser.id };
             res.send({
-              authToken: LoginServices.createJwt(sub, payload),
+              authToken: LoginService.createJwt(sub, payload),
             });
           });
       })
