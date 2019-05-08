@@ -36,6 +36,7 @@ LoginRouter
 
         return LoginService.comparePasswords(userCreds.password, dbUser.password)
           .then(match => {
+            console.log(match);
             if (!match) {
               return res.status(400).json({
                 error: 'Incorrect username or password'
@@ -44,6 +45,7 @@ LoginRouter
 
             const sub = dbUser.username;
             const payload = { user_id: dbUser.id };
+            console.log(sub, payload);
             res.send({
               authToken: LoginService.createJwt(sub, payload),
             });
