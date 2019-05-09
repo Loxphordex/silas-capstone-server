@@ -10,8 +10,11 @@ EntriesRouter
   .post(requireAuth, bodyParser, (req, res, next) => {
     const { entry } = req.body;
 
+    console.log('DEBUG ENTRY ROUTE');
+    console.log('REQ.BODY: ', req.body);
+
     if (!entry) {
-      return res.error(400).json({ error: 'Missing entry in request body' });
+      return res.status(400).json({ error: 'Missing entry in request body' });
     }
 
     entry.user_id = req.user.id;

@@ -2,9 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
-const LoginServies = {
+const LoginServices = {
   getUserWithUsername(db, username) {
-    console.log('getUserWithUsername:', db, username);
+    console.log('getUserWithUsername:', username);
     return db('users')
       .where({ username })
       .first();
@@ -35,4 +35,4 @@ const LoginServies = {
   }
 };
 
-module.exports = LoginServies;
+module.exports = LoginServices;

@@ -28,10 +28,6 @@ LoginRouter
 
         console.log('dbUser: ', dbUser);
 
-        if (dbUser.message) {
-          console.log('DBUSER ERROR HAS MESSAGE');
-        }
-
         if (!dbUser) {
           return res.status(400).json({
             error: 'Incorrect username or password'
@@ -55,7 +51,10 @@ LoginRouter
             });
           });
       })
-      .catch(next);
+      .catch(err => {
+        console.log('ERROR: ', err);
+        next();
+      });
   });
 
 module.exports = LoginRouter;
