@@ -4,6 +4,7 @@ const config = require('../config');
 
 const LoginServies = {
   getUserWithUsername(db, username) {
+    console.log('getUserWithUsername:', db, username);
     return db('users')
       .where({ username })
       .first();

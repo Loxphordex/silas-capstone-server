@@ -36,6 +36,8 @@ EntriesRouter
   .get(requireAuth, (req, res, next) => {
     const id = req.user.id;
 
+    console.log(id);
+
     if (!id) {
       return res.status(400).json({ error: 'Missing id in request' });
     }

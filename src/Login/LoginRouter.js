@@ -26,7 +26,11 @@ LoginRouter
     LoginService.getUserWithUsername(req.app.get('db'), userCreds.username)
       .then(dbUser => {
 
+        console.log('dbUser: ', dbUser);
 
+        if (dbUser.message) {
+          console.log('DBUSER ERROR HAS MESSAGE');
+        }
 
         if (!dbUser) {
           return res.status(400).json({
@@ -36,7 +40,7 @@ LoginRouter
 
         return LoginService.comparePasswords(userCreds.password, dbUser.password)
           .then(match => {
-            console.log(match);
+            console.log('match: ', match);
             if (!match) {
               return res.status(400).json({
                 error: 'Incorrect username or password'
