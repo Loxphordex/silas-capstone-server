@@ -9,9 +9,11 @@ AuthRouter
     const sub = req.user.username;
     const payload = { user_id: req.user.id };
 
-    res.send({
-      authToken: LoginServices.createJwt(sub, payload)
-    });
+    if(req.user.username) {
+      res.send({
+        authToken: LoginServices.createJwt(sub, payload)
+      });
+    }
   });
 
 module.exports = AuthRouter;
