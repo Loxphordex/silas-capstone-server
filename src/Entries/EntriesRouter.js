@@ -27,6 +27,7 @@ EntriesRouter
 
     EntriesService.insertEntry(req.app.get('db'), newEntry)
       .then(entry => {
+        console.log('SERIALIZED ENTRY: ', entry);
         res.status(201)
           .location(path.posix.join(req.originalUrl, `/${entry.id}`))
           .json(entry);

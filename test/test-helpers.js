@@ -92,10 +92,55 @@ function makeAuthHeader(user, secret=process.env.JWT_SECRET) {
   return `Bearer ${token}`;
 }
 
+function makeExpectedEntry(users, entry) {
+  const user = users.find(author => author.id === entry.user_id)
+
+  return {
+    id: entry.id,
+    title: entry.title,
+    content: entry.content,
+    date_created: entry.date_created.toISOString(),
+    user: {
+      id: user.id,
+      username: user.username,
+    }
+  }
+}
+
+function makeMaliciousEntry(user) {
+  const maliciousEntry = {
+    id: 911,
+    title: '<script>alert("xss");</script>',
+    content: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
+    user_id: user.id,
+    date_created: new Date(),
+  }
+  const expectedEntry = {
+    ...makeExpectedEntry([user], maliciousEntry),
+    title: '&lt;script&gt;alert(\"xss\");&lt;/script&gt;',
+    content: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`,
+  }
+  return {
+    maliciousEntry,
+    expectedEntry,
+  }
+}
+
+function seedMaliciousEntry(db, user, entry) {
+  return seedUsers(db, [user])
+    .then(() => 
+      db.into('entries')
+        .insert([entry])
+    )
+}
+
 module.exports = {
   cleanTables,
   makeUsersArray,
   makeEntriesArray,
   seedUsers,
   makeAuthHeader,
+  makeExpectedEntry,
+  makeMaliciousEntry,
+  seedMaliciousEntry,
 };
