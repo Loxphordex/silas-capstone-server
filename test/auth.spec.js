@@ -4,7 +4,7 @@ const knex = require('knex');
 const helpers = require('./test-helpers');
 const jwt = require('jsonwebtoken');
 
-describe('Auth', () => {
+describe.only('Auth', () => {
   let db;
 
   const testUsers = helpers.makeUsersArray();
@@ -18,8 +18,8 @@ describe('Auth', () => {
     app.set('db', db);
   });
 
-  //before('cleanup', () => helpers.cleanTables(db));
-  //afterEach('cleanup', () => helpers.cleanTables(db));
+  before('cleanup', () => helpers.cleanTables(db));
+  after('cleanup', () => helpers.cleanTables(db));
   after('disconnect from db', () => db.destroy());
 
   describe('POST /auth/login', () => {

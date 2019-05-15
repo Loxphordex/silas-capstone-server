@@ -31,6 +31,12 @@ const EntriesService = {
       .then(entry => EntriesService.getById(db, entry.id));
   },
 
+  deleteById(db, id) {
+    return db('entries')
+      .where('entries.id', id)
+      .del();
+  },
+
   serializeEntry(entry) {
     const user = EntriesService.getUserbyId(entry.user_id);
     return {

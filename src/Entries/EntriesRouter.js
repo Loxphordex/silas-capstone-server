@@ -10,9 +10,6 @@ EntriesRouter
   .post(requireAuth, bodyParser, (req, res, next) => {
     const { entry } = req.body;
 
-    console.log('DEBUG ENTRY ROUTE');
-    console.log('REQ.BODY: ', req.body);
-
     if (!entry) {
       return res.status(400).json({ error: 'Missing entry in request body' });
     }
@@ -71,6 +68,22 @@ EntriesRouter
       .then(entry => {
         res.status(201)
           .json(entry);
+      })
+      .catch(next);
+  });
+
+EntriesRouter
+  .route('/:entry_id')
+  .delete(requireAuth, (req, res, next) => {
+    const entry_id = req.params.entry_id;
+
+    if (!entry_id) {
+      return res.status(400).json({ error: 'Entry ID not specified' });
+    }
+
+    EntriesService.deleteById(req.app.get('db'), entry_id)
+      .then(data => {
+        res.status(200).json(data);
       })
       .catch(next);
   });

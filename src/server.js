@@ -13,4 +13,5 @@ app.set('db', db);
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
+  console.log(`DATABASE_URL: ${DATABASE_URL}`);
 });
