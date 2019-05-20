@@ -24,7 +24,6 @@ EntriesRouter
 
     EntriesService.insertEntry(req.app.get('db'), newEntry)
       .then(entry => {
-        console.log('SERIALIZED ENTRY: ', entry);
         res.status(201)
           .location(path.posix.join(req.originalUrl, `/${entry.id}`))
           .json(entry);
@@ -37,8 +36,6 @@ EntriesRouter
   .get(requireAuth, (req, res, next) => {
     const id = req.user.id;
 
-    console.log(id);
-
     if (!id) {
       return res.status(400).json({ error: 'Missing id in request' });
     }
@@ -46,7 +43,6 @@ EntriesRouter
     EntriesService.getAllByUserId(req.app.get('db'), id)
       .then(entries => {
         if (!entries) {
-          console.log('No entries');
           return res.status(200).json();
         }
         res.status(201)
