@@ -45,7 +45,7 @@ EntriesRouter
         if (!entries) {
           return res.status(200).json();
         }
-        res.status(201)
+        res.status(200)
           .json(entries);
       })
       .catch(next);
@@ -62,7 +62,7 @@ EntriesRouter
 
     EntriesService.getById(req.app.get('db'), id)
       .then(entry => {
-        res.status(201)
+        res.status(200)
           .json(entry);
       })
       .catch(next);
