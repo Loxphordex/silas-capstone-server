@@ -84,4 +84,25 @@ EntriesRouter
       .catch(next);
   });
 
+EntriesRouter
+  .route('/:entry_id')
+  .patch(requireAuth, bodyParser, (req, res, next) => {
+    const entry_id = req.params.entry_id;
+    const { entry } = req.body;
+
+    if (!entry_id) {
+      return res.status(400).json({ error: 'Entry ID not specified' });
+    }
+
+    if (!entry) {
+      return res.status(400).json({ error: 'No entry in request body' });
+    }
+
+    EntriesService.patchById(req.app.get('db'), entry_id, entry)
+      .then(entry => {
+        return res.status(201).json(entry);
+      })
+      .catch(next);
+  });
+
 module.exports = EntriesRouter;

@@ -37,6 +37,15 @@ const EntriesService = {
       .del();
   },
 
+  patchById(db, entry_id, entry){
+    return db('entries')
+      .where('entries.id', entry_id)
+      .update( entry )
+      .returning('*')
+      .then(( [entry] ) => entry)
+      .then(entry => EntriesService.getById(db, entry.id));
+  },
+
   serializeEntry(entry) {
     const user = EntriesService.getUserbyId(entry.user_id);
     return {
